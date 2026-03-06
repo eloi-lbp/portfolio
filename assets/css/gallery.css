@@ -1,0 +1,96 @@
+
+/* Conteneur de la galerie */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+/* Carte image */
+.img-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* Image */
+.img-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+  margin: auto;
+} 
+
+
+
+
+
+
+/* Bandeau légende */
+.img-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 8px 12px;
+  background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0));
+  color: #fff;
+  font-size: 0.9rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Effet au survol */
+.img-card:hover img {
+  transform: scale(1.05);
+}
+
+.img-card:hover .img-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+
+#lightbox.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#lightbox-img {
+  max-width: 90%;
+  max-height: 80%;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  pointer-events: none; /* 🔥 indispensable pour fermer la lightbox */
+}
+
+#lightbox-caption {
+  color: white;
+  font-size: 1.1rem;
+  text-align: center;
+  max-width: 80%;
+}
+
+#lightbox-pdf {
+  width: 90%;
+  height: 90%;
+  border-radius: 8px;
+}
