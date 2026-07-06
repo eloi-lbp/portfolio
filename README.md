@@ -7,11 +7,17 @@ I’m sharing it publicly so anyone can reuse or adapt it if they find it helpfu
 # Folder Structure
 Code
 /
+
 ├── index.html
+
 ├── /assets
+
 │   ├── /css
+
 │   ├── /js
+
 │   └── /images
+
 └── README.md
 
 # Usage
