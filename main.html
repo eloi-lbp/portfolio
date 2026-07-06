@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio ELB — IPGP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #f7f4ef;
+    --bg2:        #f2ede6;
+    --surface:    #ede8e0;
+    --surface2:   #e4ddd3;
+    --border:     rgba(180,150,110,0.18);
+    --accent:     #d4621a;
+    --accent2:    #b84d10;
+    --text:       #1a1a18;
+    --text-muted: #5a5248;
+    --text-dim:   #9a9088;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Outfit', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── QUADRILLAGE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(160,130,90,0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(160,130,90,0.09) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: linear-gradient(to bottom, rgba(247,244,239,0.97), transparent);
+    backdrop-filter: blur(2px);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 7rem 3rem;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.15;
+    margin-bottom: 3rem;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* ── Title ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300;
+    line-height: 1.05;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+
+  .hero-title span {
+    display: block;
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-subtitle {
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    margin-top: 1.5rem;
+    max-width: 520px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 1s 0.7s forwards;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.9s forwards;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    cursor: default;
+    background: rgba(255,255,255,0.4);
+  }
+
+  .tag:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(212,98,26,0.06);
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    opacity: 0;
+    animation: fadeUp 1s 1.1s forwards;
+  }
+
+  .btn-primary {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--accent);
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent2);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    background: rgba(255,255,255,0.4);
+  }
+
+  .btn-secondary:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* ── STATS ── */
+  .hero-stats {
+    position: absolute;
+    right: 3rem;
+    bottom: 8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    opacity: 0;
+    animation: fadeIn 1.5s 1.4s forwards;
+  }
+
+  .stat { text-align: right; }
+
+  .stat-number {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+  }
+
+  /* ── "ME" SECTION ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-photo-wrapper { position: relative; }
+
+  .about-photo {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .photo-placeholder {
+    font-family: var(--serif);
+    font-size: 5rem;
+    color: var(--text-dim);
+    opacity: 0.4;
+    font-style: italic;
+  }
+
+  .photo-label {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .about-deco {
+    position: absolute;
+    top: -1.5rem;
+    right: -1.5rem;
+    width: 80px;
+    height: 80px;
+    border: 1px solid var(--accent);
+    opacity: 0.25;
+  }
+
+  .about-text p {
+    color: var(--text-muted);
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+    font-size: 0.97rem;
+  }
+
+  .about-text p strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .about-infos {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .info-item {
+    border-left: 2px solid var(--border);
+    padding-left: 1rem;
+  }
+
+  .info-key {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
+  .info-val {
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+
+  /* ── INTEREST SECTION ── */
+  #recherche { background: none; }
+
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .research-card {
+    background: var(--bg2);
+    padding: 2.5rem;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .research-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+
+  .research-card:hover { background: var(--surface); }
+  .research-card:hover::before { transform: scaleX(1); }
+
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .card-title {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+
+  .card-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .card-num {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── MY WORK SECITON ── */
+  .pub-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .pub-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: start;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .pub-item:hover { padding-left: 1rem; }
+
+  .pub-year {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    padding-top: 0.25rem;
+    letter-spacing: 0.1em;
+  }
+
+  .pub-title {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .pub-authors {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .pub-journal {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .pub-type {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid;
+    white-space: nowrap;
+    height: fit-content;
+  }
+
+  .pub-type.article { color: var(--accent); border-color: var(--accent); opacity: 0.8; }
+  .pub-type.conf { color: var(--accent2); border-color: var(--accent2); opacity: 0.8; }
+  .pub-type.poster { color: var(--text-muted); border-color: var(--text-dim); }
+
+  /* ── EXPERIENCES SECTION ── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    opacity: 0.4;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3.5rem;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -2.4rem;
+    top: 0.4rem;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(212,98,26,0.4);
+  }
+
+  .timeline-period {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-role {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    font-weight: 300;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .timeline-place {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .timeline-place strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .timeline-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    max-width: 600px;
+  }
+
+  .timeline-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .skill-tag {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.35);
+  }
+
+  /* ── CV SECTION ── */
+  .cv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .cv-section-title {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cv-item { margin-bottom: 2rem; }
+
+  .cv-year {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+  }
+
+  .cv-title {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+
+  .cv-place {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .cv-description {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-top: 0.8rem;
+    opacity: 0.9;
+  }
+
+  .cv-description p { margin-bottom: 0.6rem; }
+
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .skill-bar-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+  }
+
+  .skill-name {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .skill-level {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+  }
+
+  .skill-bar {
+    height: 2px;
+    background: var(--surface2);
+    position: relative;
+  }
+
+  .skill-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--accent), rgba(212,98,26,0.35));
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ── CONTACT SECTION ── */
+  #contact {
+    background: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+  }
+
+  .contact-info h3 {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+
+  .contact-info p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: color 0.3s;
+  }
+
+  .contact-link:hover { color: var(--accent); }
+
+  .contact-link-icon {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background: rgba(255,255,255,0.4);
+  }
+
+  .contact-link:hover .contact-link-icon {
+    border-color: var(--accent);
+    background: rgba(212,98,26,0.06);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-label {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .form-input, .form-textarea {
+    background: rgba(255,255,255,0.55);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 300;
+    padding: 0.85rem 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+    resize: none;
+  }
+
+  .form-input:focus, .form-textarea:focus {
+    border-color: var(--accent);
+    background: rgba(255,255,255,0.75);
+  }
+
+  .form-textarea { height: 130px; }
+
+  .btn-submit {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    align-self: flex-start;
+  }
+
+  .btn-submit:hover {
+    background: var(--accent2);
+    transform: translateY(-2px);
+  }
+
+  /* ──── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* ──── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s, transform 0.8s;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ──── */
+  .sep {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+    border: none;
+    border-top: 1px solid var(--border);
+    opacity: 0.5;
+  }
+
+  /* ──── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 1.5rem; }
+    #hero { padding: 0 1.5rem; }
+    .about-grid, .cv-grid, .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .research-grid { grid-template-columns: 1fr; }
+    .hero-stats { display: none; }
+    .pub-item { grid-template-columns: 60px 1fr; }
+    .pub-type { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="seismo-canvas"></canvas>
+
+<nav>
+  <div class="nav-logo">// Master student · IPGP</div>
+  <ul class="nav-links">
+    <li><a href="#apropos">Profile</a></li>
+    <li><a href="#recherche">Interest</a></li>
+    <li><a href="#publications">My work</a></li>
+    <li><a href="#stages">Experiences</a></li>
+    <li><a href="#cv">CV</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div id="hero" style="position:relative;">
+  <div class="hero-eyebrow">Institut de Physique du Globe de Paris</div>
+  <h1 class="hero-title">
+    Eloi<br>
+    <span>Le Brun</span>
+  </h1>
+  <p class="hero-subtitle">
+    Geology student · Passionate by fieldwork and the analysis of geological data.
+  </p>
+  <div class="hero-tags">
+    <span class="tag">Geology</span>
+    <span class="tag">Geothermy</span>
+    <span class="tag">Geodynamic</span>
+    <span class="tag">Python / LoopStructural</span>
+    <span class="tag">Numerical modeling</span>
+    <span class="tag">IPGP — Paris</span>
+  </div>
+  <div class="hero-cta">
+    <a href="#contact" class="btn-primary">Contact me</a>
+    <a href="#cv" class="btn-secondary">My CV</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-number">7</div>
+      <div class="stat-label">Fieldtrips</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">3</div>
+      <div class="stat-label">Internships</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">5</div>
+      <div class="stat-label">Number of field notebooks filled</div>
+    </div>
+  </div>
+</div>
+
+<hr class="sep">
+
+<section id="apropos">
+  <div class="section-label">01 — Profile</div>
+  <div class="about-grid">
+    <div class="about-photo-wrapper reveal">
+      <div class="about-photo">
+        <img src="./assets/img/photo_cv.jpg" alt="Eloi Le Brun" style="width:100%; height:100%; object-fit:cover; opacity: 0.85;">
+        <span class="photo-label">// © Juliette Le Brun 2025</span>
+      </div>
+      <div class="about-deco"></div>
+    </div>
+    <div class="about-text reveal">
+      <h2 class="section-title">Studying<br><em>the earth</em></h2>
+      <p>
+        I'm currently a Master's student in geology at Institut de Physique du Globe de Paris
+        aiming to pursue for a PhD focused on <strong>geological and hydrogeological processes
+        related to geothermal systems</strong>.
+      </p>
+      <p>
+        Trained in naturalist methods at the University of Toulouse and in quantitative approaches at IPGP, I aim to bridge these two perspectives to build rigorous, data-driven models of geological systems, primarily implemented in Python.
+      </p>
+      <div class="about-infos">
+        <div class="info-item">
+          <div class="info-key">Institution</div>
+          <div class="info-val">IPGP — Paris</div>
+        </div>
+        <div class="info-item">
+          <div class="info-key">Academic level</div>
+          <div class="info-val">Master 1</div>
+        </div>
+        <div class="info-item">
+          <div class="info-key">Field of work</div>
+          <div class="info-val">Geology</div>
+        </div>
+        <div class="info-item">
+          <div class="info-key">Languages</div>
+          <div class="info-val">Français · English</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section id="recherche">
+  <div class="section-label reveal">02 — Career project</div>
+  <h2 class="section-title reveal">My<br><em>interest</em></h2>
+  <div class="research-grid reveal">
+    <div class="research-card">
+      <span class="card-num">01</span>
+      <span class="card-icon">🔥</span>
+      <div class="card-title">Geothermy</div>
+      <p class="card-desc">I have a keen of interest for geothermal exploration and research. The scientific questions raised by geothermal systems from structural geology and geophysical exploration to reservoir modeling are what drive me most, but I am equally motivated by the sustainable potential of geothermal energy and its societal dimension, particularly for the electrification of non-interconnected zones.</p>
+    </div>
+    <div class="research-card">
+      <span class="card-num">02</span>
+      <span class="card-icon">🌋</span>
+      <div class="card-title">Geodynamic & Tectonic</div>
+      <p class="card-desc">I really like tectonic, from structures charactarization to geomorphologic observation. This area of geology integrated really large scales of time and space, allowing us to learn more and more from the earth dynamic. Understanding deformation and its impact on water flows is the key to geothermal and karst modelling.</p>
+    </div>
+    <div class="research-card">
+      <span class="card-num">03</span>
+      <span class="card-icon">⚙️</span>
+      <div class="card-title">Numerical modeling</div>
+      <p class="card-desc">Through my academic training, I developed an interest for coding and numerical modeling that bridges field observation and quantitative analysis.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section id="publications">
+  <div class="section-label reveal">03 — Some of my work</div>
+  <h2 class="section-title reveal">Selected<br><em>works</em></h2>
+  <div class="pub-list reveal">
+    <a href="./assets/docs/rapport_sol.pdf" target="_blank" class="pub-item">
+      <div class="pub-year">2026</div>
+      <div class="pub-content">
+        <div class="pub-title">(FR) Report on methods for quantifying CO₂ fluxes resulting from the weathering of silicate rocks.</div>
+        <div class="pub-authors">Le Brun E., Courcelle M., Teyssier R.</div>
+        <div class="pub-journal">"Sol au coeur de la zone critique" course</div>
+      </div>
+      <span class="pub-type article">Report</span>
+    </a>
+    <a href="./assets/docs/poster_Volc.pdf" target="_blank" class="pub-item">
+      <div class="pub-year">2025</div>
+      <div class="pub-content">
+        <div class="pub-title">Viscosity measurements of samples from the volcanic chain off Mayotte</div>
+        <div class="pub-authors">Poussielgue J., Sagot L., Le Brun E.</div>
+        <div class="pub-journal">"Volcanic System" course</div>
+      </div>
+      <span class="pub-type conf">bibliographical poster</span>
+    </a>
+    <a href="./assets/docs/Cantal.pdf" class="pub-item">
+      <div class="pub-year">2025</div>
+      <div class="pub-content">
+        <div class="pub-title">(FR) Geological logs and section of volcanic formations of the Massif Central</div>
+        <div class="pub-authors">Le Brun E.</div>
+        <div class="pub-journal">Volcanic Field Trip</div>
+      </div>
+      <span class="pub-type poster">geological fieldwork</span>
+    </a>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section id="stages">
+  <div class="section-label reveal">04 — Experiences</div>
+  <h2 class="section-title reveal">Internships &<br><em>fieldtrips</em></h2>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">March — July 2026</div>
+      <div class="timeline-role">M1 Internship — Hydrogeology</div>
+      <div class="timeline-place"><strong>UA</strong> · Université d'Avignon, Avignon</div>
+      <p class="timeline-desc">
+        Hydrogeological characterization of a compartment of the Fontaine de Vaucluse karst. Objective: To better constrain the role of faults in local flow dynamics. Contribution of numerical geological modeling.
+      </p>
+      <div class="timeline-skills">
+        <span class="skill-tag">Python / LoopStructural</span>
+        <span class="skill-tag">Sedimentology and stratigraphy</span>
+        <span class="skill-tag">Tectonic and structural geology</span>
+        <span class="skill-tag">Hydrochemical analysis</span>
+        <span class="skill-tag">High-definition cartography</span>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">September 2025</div>
+      <div class="timeline-role">Fieldtrip — French Massif Central</div>
+      <div class="timeline-place"><strong>IPGP</strong> · Institut de Physique du Globe de Paris</div>
+      <p class="timeline-desc">
+        Discovering the geological history of the Massif Central. Description of volcanic formations.
+      </p>
+      <div class="timeline-skills">
+        <span class="skill-tag">Geological logging</span>
+        <span class="skill-tag">Scientific drawing</span>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">June - July 2025</div>
+      <div class="timeline-role">L3 Internship</div>
+      <div class="timeline-place"><strong>GET</strong> · Géosciences Environnement Toulouse, Toulouse</div>
+      <p class="timeline-desc">
+        Tectono-climatic study of northern Peru. Contribution of numerical modeling (with the tAo software).
+      </p>
+      <div class="timeline-skills">
+        <span class="skill-tag">tAo</span>
+        <span class="skill-tag">Linux</span>
+        <span class="skill-tag">Bash</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section id="cv">
+  <div class="section-label reveal">05 — Curriculum</div>
+  <h2 class="section-title reveal">Education &<br><em>skills</em></h2>
+  <div class="cv-grid reveal">
+    <div>
+      <div class="cv-section-title">// Academic path</div>
+      <div class="cv-item">
+        <div class="cv-year">2025 — 202...</div>
+        <div class="cv-title">Master Sciences de la Terre et des Planètes / Geology</div>
+        <div class="cv-place">IPGP — Université Paris Cité</div>
+        <div class="cv-description">
+          <p>Advanced training in geosciences with a specialization in geology. The program includes extensive fieldwork (6 weeks), research‑based teaching, strong integration within IPGP research teams, and long internships. This curriculum provides solid experience in both academic and industrial geosciences, all within a high‑level scientific environment.</p>
+        </div>
+      </div>
+      <div class="cv-item">
+        <div class="cv-year">2022 — 2025</div>
+        <div class="cv-title">Licence Sciences de la Terre / Geosciences</div>
+        <div class="cv-place">Université de Toulouse</div>
+        <div class="skill-level">With Honours (Mention bien)</div>
+        <div class="cv-description">
+          <p>Acquisition of fundamental knowledge across the various fields of geosciences (geology, geophysics, geochemistry, hydrology...) through both theoretical courses and field-based training (4 weeks)</p>
+        </div>
+      </div>
+      <div class="cv-item">
+        <div class="cv-year">2022</div>
+        <div class="cv-title">Baccalauréat Scientifique</div>
+        <div class="skill-level">With Honours (Mention bien)</div>
+      </div>
+
+      <div class="cv-section-title" style="margin-top:3rem;">// Tools and software</div>
+      <div class="skills-grid">
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-name">QGIS</span>
+            <span class="skill-level">Advance</span>
+          </div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="80" style="width:0"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-name">LaTeX / Scientific writing</span>
+            <span class="skill-level">Advance</span>
+          </div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="80" style="width:0"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-name">Python</span>
+            <span class="skill-level">Intermediate</span>
+          </div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="50" style="width:0"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-name">Linux / Bash</span>
+            <span class="skill-level">Learning</span>
+          </div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="30" style="width:0"></div></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="cv-section-title" style="margin-top:3rem;">// Languages</div>
+      <div class="skills-grid">
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-name">Français</span>
+            <span class="skill-level">Native language</span>
+          </div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="100" style="width:0"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-name">English</span>
+            <span class="skill-level">B2 — Advance</span>
+          </div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="65" style="width:0"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header">
+            <span class="skill-name">Italiano</span>
+            <span class="skill-level">B1 — Learning</span>
+          </div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="35" style="width:0"></div></div>
+        </div>
+      </div>
+
+      <div style="margin-top:3rem;">
+        <a href="./assets/docs/CV_Le_Brun_E.pdf" target="_blank" class="btn-secondary" style="display:inline-flex; align-items:center; gap:0.75rem;">
+          <span>↓</span> Download my CV
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<section id="contact">
+  <div class="section-label reveal">06 — Contact</div>
+  <div class="contact-layout reveal">
+    <div class="contact-info">
+      <h3 class="section-title">Let's work<br><em>together</em></h3>
+      <p>
+        Open to collaborations, M2 internships and PhD's opportunities. Don't hesitate to contact me to discuss potential academic opportunities or research projects.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:lebrunplanquette@ipgp.fr" class="contact-link">
+          <div class="contact-link-icon">✉</div>
+          lebrunplanquette@ipgp.fr
+        </a>
+        <a href="https://www.linkedin.com/in/eloi-le-brun-planquette-794872347" class="contact-link">
+          <div class="contact-link-icon">in</div>
+          linkedin.com/in/Eloi-Le-Brun
+        </a>
+        <div class="contact-link" style="cursor:default;">
+          <div class="contact-link-icon">📍</div>
+          IPGP · 1 rue Jussieu, 75005 Paris
+        </div>
+      </div>
+    </div>
+    <form action="https://formspree.io/f/mojrnngv" method="POST" class="contact-form">
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input type="text" name="name" class="form-input" placeholder="Dr. ...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Institution</label>
+        <input type="text" name="institution" class="form-input" placeholder="University / Lab.">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-input" placeholder="name@institution.edu">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea name="message" class="form-textarea" placeholder="Ask any question, describe your project or opportunity"></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Submit →</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Eloi Le Brun 2026</div>
+  <div class="footer-copy">This website was created with the assistance of AI</div>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      e.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+    }
+  });
+}, { threshold: 0.15 });
+reveals.forEach(r => obs.observe(r));
+
+document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+  bar.style.width = '0';
+});
+
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.background = window.scrollY > 60
+    ? 'rgba(247,244,239,0.97)'
+    : 'linear-gradient(to bottom, rgba(247,244,239,0.97), transparent)';
+});
+</script>
+</body>
+</html>
