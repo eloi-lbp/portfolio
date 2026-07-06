@@ -4,37 +4,6 @@ It serves as a clean starting point for small projects, prototypes, or portfolio
 
 I’m sharing it publicly so anyone can reuse or adapt it if they find it helpful.
 
-# Folder Structure
-Code/
-
-├──  /Docs
-
-│   ├── index.html
-
-│   ├── /assets
-
-│   │   ├── /css
-
-│   │   ├── /docs
-
-│   │   ├── /fonts
-
-│   │   ├── /images
-
-│   │   └── /js
-
-│   ├── /vendors
-
-│   │   ├── /bootstrap
-
-│   │   └── /jquery
-
-│   └── prepos-6.config
-
-├── LICENSE
-
-└── README.md
-
 # Usage
 Feel free to clone, modify, or adapt this template for your own projects.
 It’s meant to be simple, flexible, and easy to build upon.
