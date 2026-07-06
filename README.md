@@ -5,18 +5,33 @@ It serves as a clean starting point for small projects, prototypes, or portfolio
 I’m sharing it publicly so anyone can reuse or adapt it if they find it helpful.
 
 # Folder Structure
-Code
-/
+Code/
 
-├── index.html
+├──  /Docs
 
-├── /assets
+│   ├── index.html
 
-│   ├── /css
+│   ├── /assets
 
-│   ├── /js
+│   │   ├── /css
 
-│   └── /images
+│   │   ├── /docs
+
+│   │   ├── /fonts
+
+│   │   ├── /images
+
+│   │   └── /js
+
+│   ├── /vendors
+
+│   │   ├── /bootstrap
+
+│   │   └── /jquery
+
+│   └── prepos-6.config
+
+├── LICENSE
 
 └── README.md
 
